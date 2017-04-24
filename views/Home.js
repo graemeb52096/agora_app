@@ -1,6 +1,40 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Text, View, TextInput, TouchableHighlight, NavigatorIOS, StyleSheet, Button } from 'react-native';
+import { Text, View, TextInput, TouchableHighlight, NavigatorIOS, StyleSheet, Button, Image, ScrollView } from 'react-native';
+
+import Post from './Post';
+
+
+function PostDetails(){
+    return (
+        <View style={styles.post}>
+            <Image resizeMode="contain" source={require('../resources/images/placeholder.png')} style={{width: 300, height:300}}/>
+            <View style={{flex:1, flexDirection: 'row', padding: 5, paddingTop: 10}}>
+                <View style={{
+                    flex:1,
+                    flexDirection: 'column',
+                    alignItems: "flex-start"
+                }}>
+                    <Text>Chris Zenti</Text>
+                </View>
+                <View style={{
+                    flex:1,
+                    flexDirection: 'column',
+                    alignItems: "center"
+                }}>
+                    <Text>mid</Text>
+                </View>
+                <View style={{
+                    flex:1,
+                    flexDirection: 'column',
+                    alignItems: "flex-end"
+                }}>
+                    <Text>like</Text>
+                </View>
+            </View>
+        </View>
+    )
+}
 
 class Home extends Component {
     static propTypes = {
@@ -8,6 +42,7 @@ class Home extends Component {
     };
     constructor(props) {
         super(props);
+        this.handlePostRequest = this.handlePostRequest.bind(this);
         this.state = {
             feed: []
         };
@@ -19,10 +54,25 @@ class Home extends Component {
             }
         })
     }
+    handlePostRequest() {
+        this.props.navigator.push({
+            title: 'Post',
+            component: Post,
+            passProps: {User: 'something'}
+        });
+    }
     render(){
         return (
             <View style={styles.wrapper}>
-
+                <Button
+                    title='Post!'
+                    onPress={this.handlePostRequest}
+                />
+                <ScrollView>
+                    <PostDetails></PostDetails>
+                    <PostDetails></PostDetails>
+                    <PostDetails></PostDetails>
+                </ScrollView>
             </View>
         )
     }
@@ -37,6 +87,9 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 74,
+        backgroundColor: '#FFFAF9',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     submit: {
         fontSize: 30
@@ -49,6 +102,25 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderBottomWidth: 1,
         margin: 20
+    },
+    post: {
+        height: 450,
+        width: 310,
+        margin: 10,
+        alignItems: "center",
+        padding: 5,
+        paddingTop: 10,
+        marginTop: 30,
+        marginBottom: 35,
+        backgroundColor: 'white',
+        borderRadius: 3,
+        shadowColor: "#000000",
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 4,
+            width: -4
+        }
     }
 });
 

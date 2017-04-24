@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import { Text, View, TextInput, TouchableHighlight, NavigatorIOS, StyleSheet, Button } from 'react-native';
 
+import Login from './Login';
+
 class SignUp extends Component {
     static propTypes = {
         navigator: PropTypes.object.isRequired
@@ -33,7 +35,12 @@ class SignUp extends Component {
                 password: this.state.password,
                 username: this.state.username
             })
-        })
+        });
+        this.props.navigator.resetTo({
+            title: 'Login',
+            component: Login,
+            passProps: {User: 'something'}
+        });
     }
 
     render(){
