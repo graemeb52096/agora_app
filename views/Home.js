@@ -11,7 +11,7 @@ class PostDetails extends Component{
             <View style={styles.post}>
                 <Image resizeMode="contain" source={require('../resources/images/placeholder.png')}
                        style={{width: 300, height: 300}}/>
-                <View style={{flex: 1, flexDirection: 'row', padding: 5, paddingTop: 10}}>
+                <View style={{flexDirection: 'row', padding: 5, paddingTop: 10, borderBottomWidth: 1}}>
                     <View style={{
                         flex: 1,
                         flexDirection: 'column',
@@ -79,11 +79,20 @@ class Home extends Component {
     render(){
         return (
             <View style={styles.wrapper}>
-                <Button
-                    title='Post!'
-                    onPress={this.handlePostRequest}
-                />
-                {this.feed()}
+                <View style={styles.menu}>
+                    <View style={{flex:1, flexDirection: 'column'}}>
+                        <Button title='Post!' onPress={this.handlePostRequest}/>
+                    </View>
+                    <View style={{flex:1, flexDirection: 'column'}}>
+                        <Button title='Post!' onPress={this.handlePostRequest}/>
+                    </View>
+                    <View style={{flex:1, flexDirection: 'column'}}>
+                        <Button title='Menu!' onPress={this.handlePostRequest}/>
+                    </View>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    {this.feed()}
+                </View>
             </View>
         )
     }
@@ -93,6 +102,12 @@ class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    menu: {
+        flexDirection: 'row',
+        padding:10,
+        height: 50,
+        borderBottomWidth: 1
     },
     wrapper: {
         flex: 1,
@@ -125,8 +140,13 @@ const styles = StyleSheet.create({
         marginBottom: 35,
         backgroundColor: 'white',
         borderRadius: 3,
-        borderLeftWidth: 1,
-        borderBottomWidth: 2,
+        shadowColor: "#000000",
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 2,
+            width: -2
+        }
     }
 });
 
