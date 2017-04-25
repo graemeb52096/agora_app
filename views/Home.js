@@ -5,35 +5,32 @@ import { Text, View, TextInput, TouchableHighlight, NavigatorIOS, StyleSheet, Bu
 import Post from './Post';
 
 
-function PostDetails(){
-    return (
-        <View style={styles.post}>
-            <Image resizeMode="contain" source={require('../resources/images/placeholder.png')} style={{width: 300, height:300}}/>
-            <View style={{flex:1, flexDirection: 'row', padding: 5, paddingTop: 10}}>
-                <View style={{
-                    flex:1,
-                    flexDirection: 'column',
-                    alignItems: "flex-start"
-                }}>
-                    <Text>Chris Zenti</Text>
-                </View>
-                <View style={{
-                    flex:1,
-                    flexDirection: 'column',
-                    alignItems: "center"
-                }}>
-                    <Text>mid</Text>
-                </View>
-                <View style={{
-                    flex:1,
-                    flexDirection: 'column',
-                    alignItems: "flex-end"
-                }}>
-                    <Text>like</Text>
+class PostDetails extends Component{
+    render() {
+        return (
+            <View style={styles.post}>
+                <Image resizeMode="contain" source={require('../resources/images/placeholder.png')}
+                       style={{width: 300, height: 300}}/>
+                <View style={{flex: 1, flexDirection: 'row', padding: 5, paddingTop: 10}}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        alignItems: "flex-start",
+                        width: 'auto',
+                    }}>
+                        <Text>{this.props.post.username}</Text>
+                    </View>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        alignItems: "flex-end"
+                    }}>
+                        <Text>options</Text>
+                    </View>
                 </View>
             </View>
-        </View>
-    )
+        )
+    }
 }
 
 class Home extends Component {
@@ -43,16 +40,34 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.handlePostRequest = this.handlePostRequest.bind(this);
+        this.feed = this.feed.bind(this);
         this.state = {
             feed: []
         };
-        fetch('http://127.0.0.1:5000/feed/def/0', {
+        fetch('http://127.0.0.1:5000/feed/1', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             }
         })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.state.feed = (responseJson.feed);
+                this.setState(this.state);
+            })
+            .catch((error) => {
+                alert(error);
+            })
+    }
+    feed() {
+        return (
+            <ScrollView>
+                {this.state.feed.map(function(post, i) {
+                    return <PostDetails post={post} key={i}/>
+                })}
+            </ScrollView>
+        );
     }
     handlePostRequest() {
         this.props.navigator.push({
@@ -68,11 +83,7 @@ class Home extends Component {
                     title='Post!'
                     onPress={this.handlePostRequest}
                 />
-                <ScrollView>
-                    <PostDetails></PostDetails>
-                    <PostDetails></PostDetails>
-                    <PostDetails></PostDetails>
-                </ScrollView>
+                {this.feed()}
             </View>
         )
     }
@@ -87,7 +98,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 74,
-        backgroundColor: '#FFFAF9',
+        backgroundColor: '#FFFCFC',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -108,19 +119,14 @@ const styles = StyleSheet.create({
         width: 310,
         margin: 10,
         alignItems: "center",
-        padding: 5,
+        padding: 10,
         paddingTop: 10,
         marginTop: 30,
         marginBottom: 35,
         backgroundColor: 'white',
         borderRadius: 3,
-        shadowColor: "#000000",
-        shadowOpacity: 0.5,
-        shadowRadius: 1,
-        shadowOffset: {
-            height: 4,
-            width: -4
-        }
+        borderLeftWidth: 1,
+        borderBottomWidth: 2,
     }
 });
 

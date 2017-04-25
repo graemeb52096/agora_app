@@ -14,13 +14,16 @@ import Login from './views/Login';
 export default class AgoraReact extends Component {
     render() {
         return(
-            <NavigatorIOS
-                initialRoute={{
-                    title: 'Agora',
-                    component: Login
-                }}
-                style={styles.container}
-            />
+            <View style={styles.container}>
+                <NavigatorIOS
+                    initialRoute={{
+                        title: 'Agora',
+                        component: Login
+                    }}
+                    style={styles.container}
+                />
+                <Text>@agora version: 0.0.1</Text>
+            </View>
         );
     }
 }
