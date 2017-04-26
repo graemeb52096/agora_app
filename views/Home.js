@@ -3,35 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { Text, View, TextInput, TouchableHighlight, NavigatorIOS, StyleSheet, Button, Image, ScrollView } from 'react-native';
 
 import Post from './Post';
+import User from './User';
+import PostDetails from './components/PostDetails';
 
-
-class PostDetails extends Component{
-    render() {
-        return (
-            <View style={styles.post}>
-                <Image resizeMode="contain" source={require('../resources/images/placeholder.png')}
-                       style={{width: 300, height: 300}}/>
-                <View style={{flexDirection: 'row', padding: 5, paddingTop: 10, borderBottomWidth: 1}}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        alignItems: "flex-start",
-                        width: 'auto',
-                    }}>
-                        <Text>{this.props.post.username}</Text>
-                    </View>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        alignItems: "flex-end"
-                    }}>
-                        <Text>options</Text>
-                    </View>
-                </View>
-            </View>
-        )
-    }
-}
 
 class Home extends Component {
     static propTypes = {
@@ -40,7 +14,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.handlePostRequest = this.handlePostRequest.bind(this);
-        this.feed = this.feed.bind(this);
+        this.profileClick = this.profileClick.bind(this);
         this.state = {
             feed: []
         };
@@ -59,23 +33,20 @@ class Home extends Component {
             .catch((error) => {
                 alert(error);
             })
-    }
-    feed() {
-        return (
-            <ScrollView>
-                {this.state.feed.map(function(post, i) {
-                    return <PostDetails post={post} key={i}/>
-                })}
-            </ScrollView>
-        );
-    }
+    };
+    profileClick(){
+        this.props.navigator.push({
+            component: User,
+            title: 'Sign Up'
+        });
+    };
     handlePostRequest() {
         this.props.navigator.push({
             title: 'Post',
             component: Post,
             passProps: {User: 'something'}
         });
-    }
+    };
     render(){
         return (
             <View style={styles.wrapper}>
@@ -91,7 +62,11 @@ class Home extends Component {
                     </View>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                    {this.feed()}
+                    <ScrollView>
+                        {this.state.feed.map(function(post, i) {
+                            return <PostDetails post={post} key={i}/>
+                        })}
+                    </ScrollView>
                 </View>
             </View>
         )
@@ -105,8 +80,8 @@ const styles = StyleSheet.create({
     },
     menu: {
         flexDirection: 'row',
-        padding:10,
-        height: 50,
+        padding: 2,
+        height:40,
         borderBottomWidth: 1
     },
     wrapper: {
