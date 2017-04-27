@@ -4,17 +4,20 @@ import { Text, View, TextInput, StyleSheet, Button, Image, ScrollView } from 're
 class AudioPost extends Component{
     constructor(props){
         super(props);
+        
     }
     render(){
         return(
             <View>
                 <View style={styles.audio_details}>
                     <View style={styles.artwork}>
-                        <Image resizeMode="contain" source={{uri: 'http://127.0.0.1:5000/uploads/images/0'}} style={{width: 150, height: 150}}/>
+                        <Image resizeMode="contain"
+                               source={{uri: 'http://127.0.0.1:5000/uploads/images/0'}}
+                               style={{width: 150, height: 150}} />
                     </View>
                     <View style={styles.details}>
-                        <Text>Title - Band</Text>
-                        <Text>Album</Text>
+                        <Text>{this.state.title} - {this.state.band}</Text>
+                        <Text>{this.state.album}</Text>
                     </View>
                 </View>
                 <View style={styles.controls}>

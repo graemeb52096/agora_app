@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Login from './views/Login';
+import Player from './views/components/Player';
 
 
 export default class AgoraReact extends Component {
@@ -22,6 +23,7 @@ export default class AgoraReact extends Component {
                     }}
                     style={styles.container}
                 />
+                <Player />
                 <Text>@agora version: 0.0.1</Text>
             </View>
         );
