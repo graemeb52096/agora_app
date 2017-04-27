@@ -1,22 +1,42 @@
 import React, { Component, PropTypes } from 'react';
-import { Text, View, TextInput, TouchableHighlight, NavigatorIOS, StyleSheet, Button, Image, ScrollView } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Button, Image, ScrollView } from 'react-native';
+
+import Profile from '../Profile';
+import ImagePost from './ImagePost';
+import AudioPost from './AudioPost';
+
 
 class PostDetails extends Component{
+    static propTypes = {
+        navigator: PropTypes.object.isRequired,
+    };
     constructor(props){
         super(props);
         this.handleProfileClick = this.handleProfileClick.bind(this);
         this.getComments = this.getComments.bind(this);
-    }
-    handleProfileClick(){
-        alert("profile click");
-    }
+    };
     getComments(){
 
-    }
+    };
+    handleProfileClick(){
+        this.props.navigator.push({
+            title: 'Profile',
+            component: Profile,
+            passProps: {User: this.props.post.username}
+        })
+    };
     render(){
         return(
             <View style={styles.post}>
-                <Image resizeMode="contain" source={require('../../resources/images/placeholder.png')} style={{width: 300, height: 300}}/>
+                {this.props.post.media.substring(0, 3) == 'img' &&
+                    <ImagePost id={this.props.post.id} />
+                }
+                {this.props.post.media.substring(0, 3) == 'aud' &&
+                    <AudioPost id={this.props.post.id} />
+                }
+                {this.props.post.media.substring(0, 3) == 'vid' &&
+                    <ImagePost id={this.props.post.id} />
+                }
                 <View style={{flexDirection: 'row', padding: 5, paddingTop: 10, borderBottomWidth: 1}} refreshing>
                     <View style={{flex: 1, flexDirection: 'column', alignItems: "flex-start", width: 'auto'}}>
                         <Button title={this.props.post.username} onPress={this.handleProfileClick} style={styles.username}/>
